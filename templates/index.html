@@ -6,12 +6,16 @@
     <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
-    <h2>Cliente nuevo</h2>
-    <button onclick="startRecording()">Dime tu nombre</button>
-    <button onclick="stopRecording()">Detener</button>
-    <div>
-        <textarea id="recognizedText" rows="2" cols="30" readonly></textarea>
+    <div class="container">
+        <h2>Registro de Cliente</h2>
+        <div class="controls">
+            <button onclick="startRecording()">🎤 Dime tu nombre</button>
+            <button onclick="stopRecording()">🛑 Detener</button>
+            <a href="/attend" class="link-button">📋 Ir a atención</a>
+        </div>
+        <textarea id="recognizedText" placeholder="Aquí aparecerá tu nombre..." readonly></textarea>
+        <h3>Clientes en espera:</h3>
+        <ul id="queueList" class="list"></ul>
     </div>
-    <ul id="queueList"></ul>
 </body>
 </html>
