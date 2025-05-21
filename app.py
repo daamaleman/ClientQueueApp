@@ -1,10 +1,9 @@
 from flask import Flask, render_template, request, jsonify
 from gtts import gTTS
 import os
-from io import BytesIO
 
 app = Flask(__name__)
-queue = []
+queue = []  # Se mantiene global y persistente durante ejecución del servidor
 
 @app.route('/')
 def index():
@@ -25,7 +24,7 @@ def add_name():
 @app.route('/next', methods=['GET'])
 def next_client():
     if queue:
-        name = queue.pop(0)
+        name = queue.pop(0)  # Quita al primer cliente de la cola
         return jsonify({"name": name})
     return jsonify({"name": None})
 
@@ -34,13 +33,14 @@ def speak():
     name = request.json.get("name")
     if name:
         tts = gTTS(f"Turno del cliente: {name}", lang='es')
-        tts.save("static/audio.mp3")
-        return jsonify({"audio_url": "/static/audio.mp3"})
+        audio_path = "static/audio.mp3"
+        tts.save(audio_path)
+        return jsonify({"audio_url": "/" + audio_path})
     return jsonify({"error": "No name provided"}), 400
 
 @app.route('/get_queue', methods=['GET'])
 def get_queue():
-    return jsonify(queue)
+    return jsonify({"queue": queue})
 
 
 if __name__ == '__main__':

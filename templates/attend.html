@@ -9,17 +9,33 @@
             const data = await res.json();
             if (data.name) {
                 document.getElementById('clientName').textContent = 'Turno del cliente: ' + data.name;
+
                 const speakRes = await fetch('/speak', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ name: data.name })
                 });
+
                 const speakData = await speakRes.json();
-                const audio = new Audio(speakData.audio_url);
+                // Forzamos a que el navegador no use audio en caché
+                const audio = new Audio(speakData.audio_url + '?v=' + new Date().getTime());
                 audio.play();
             } else {
                 document.getElementById('clientName').textContent = 'No hay clientes en espera.';
             }
+            await updateQueueView();
+        }
+
+        async function updateQueueView() {
+            const res = await fetch('/get_queue');
+            const data = await res.json();
+            const list = document.getElementById('waitingList');
+            list.innerHTML = '';
+            data.queue.forEach(name => {
+                const li = document.createElement('li');
+                li.textContent = name;
+                list.appendChild(li);
+            });
         }
     </script>
 </head>
@@ -31,6 +47,8 @@
             <a href="/" class="link-button">🔙 Volver</a>
         </div>
         <div class="display" id="clientName">Esperando...</div>
+        <h3>Clientes en espera:</h3>
+        <ul id="waitingList" class="list"></ul>
     </div>
 </body>
 </html>
