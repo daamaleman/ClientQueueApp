@@ -38,5 +38,10 @@ def speak():
         return jsonify({"audio_url": "/static/audio.mp3"})
     return jsonify({"error": "No name provided"}), 400
 
+@app.route('/get_queue', methods=['GET'])
+def get_queue():
+    return jsonify(queue)
+
+
 if __name__ == '__main__':
     app.run(debug=True)

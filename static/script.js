@@ -45,3 +45,9 @@ function updateQueue(queue) {
         list.appendChild(li);
     });
 }
+
+window.onload = function () {
+    fetch('/get_queue')
+        .then(res => res.json())
+        .then(data => updateQueue(data));
+};
