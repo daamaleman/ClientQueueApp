@@ -1,0 +1,29 @@
+<html>
+<head>
+    <title>Atención de Clientes</title>
+    <script>
+        async function attendClient() {
+            const res = await fetch('/next');
+            const data = await res.json();
+            if (data.name) {
+                document.getElementById('clientName').textContent = 'Turno del cliente: ' + data.name;
+                const speakRes = await fetch('/speak', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name: data.name })
+                });
+                const speakData = await speakRes.json();
+                const audio = new Audio(speakData.audio_url);
+                audio.play();
+            } else {
+                document.getElementById('clientName').textContent = 'No hay clientes en espera.';
+            }
+        }
+    </script>
+</head>
+<body>
+    <h2>Atender Cliente</h2>
+    <button onclick="attendClient()">Atender</button>
+    <p id="clientName">Esperando...</p>
+</body>
+</html>

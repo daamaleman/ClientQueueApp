@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registro de Cliente</title>
+    <script src="/static/script.js"></script>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <h2>Cliente nuevo</h2>
+    <button onclick="startRecording()">Dime tu nombre</button>
+    <button onclick="stopRecording()">Detener</button>
+    <div>
+        <textarea id="recognizedText" rows="2" cols="30" readonly></textarea>
+    </div>
+    <ul id="queueList"></ul>
+</body>
+</html>
